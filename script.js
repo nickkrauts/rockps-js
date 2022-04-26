@@ -1,58 +1,64 @@
+let userScore = 0;
+let cpuScore = 0;
+let tieScore = 0;
+
 //One user: user1 versus the computer: cpu1
 //Let user input 'rock' 'paper' 'or scissors'
 //make sure lower or upper case && spaces before/after works
-function userSelection(){
-let user1Input = prompt('Enter rock, paper, or scissors');
-user1Input = user1Input.trim().toLocaleLowerCase();
-if (user1Input == 'rock' || 
-    user1Input === 'paper' ||
-    user1Input == 'scissors'){
-return user1Input}
-//What to print if user enters an invalid string?
-else return console.log('Try again');
-}
-console.log(userSelection());
+function userChoice(userMove) {
+    userMove = prompt('Please enter rock, paper, or scissors')
+    userMove = userMove.trim().toLowerCase();
+    //what to do if user input something other than RPS
+    return userMove;
+  }
 
 
 //randomly generate cpu1 selection between rock, paper, or scissors
-function computerSelection(){
-    let randInt = 0;
-    let cpuOutput = 'string';
-    randInt = Math.floor(Math.random()*3);
-    if (randInt === 0){
-        cpuOutput = 'rock';
-    }
-    else if (randInt === 1){
-        cpuOutput = 'paper'; 
-    }
-    else if (randInt === 2) {
-    cpuOutput = 'scissors';
-    }
-     return cpuOutput;   
-
-    }
- console.log(computerSelection());
+//every time I'm calling this function, I get a new random number. I need a constant
+function cpuChoice(cpuMove) {
+    cpuMove = '';
+    let randInt = Math.floor(Math.random() * 3);
+    if (randInt == 0){cpuMove = 'rock';}
+    else if (randInt == 1){cpuMove = 'paper';}
+    else {cpuMove = 'scissors';}
+    return cpuMove;
+  }
    
 //compare user1Input and cpuOutput r > s, s > p, p > r
 //print who won
-function readySetGo(userSelection,computerSelection){
-   //options  if user wins
-    if ((userSelection === 'rock' 
-        && computerSelection === 'scissors') ||
-        (userSelection === 'scissors' 
-        && computerSelection === 'paper') ||
-        (userSelection === 'paper' 
-        && computerSelection === 'rock')){
-        return ('You win!' /*${userSelection} beats ${computerSelection}'*/);
+function compareChoice(userMove,cpuMove){
+    cpuMove = cpuChoice();
+    userMove = userChoice();
+  
+    if (cpuMove === userMove) {
+    result = "tie";
+  }
+  //options if user wins r > s, s > p, p > r
+  else if (userMove == 'rock' && cpuMove == 'scissors') {
+    result = 'win';
+  }
+  else if (userMove == 'scissors' && cpuMove == 'paper') {
+    result = 'win';
+  }
+  else if (userMove == 'paper' && cpuMove == 'rock') {
+    result = 'win';
+  }
+  else {result = 'lose';}
+  return(result);
+  }
+
+  function rounds(){
+    for (let i = 0; i < 5; i++){
+      let outcome = compareChoice();
+      if (outcome === 'win') {
+        console.log('you win!');
+        userScore++;}
+      else if (outcome === 'lose') {
+        console.log('you lose!');
+        cpuScore++;}
+      else {tieScore++;
+           console.log('you tied!');}
     }
-    //if user loses to cpu
-    else if ((computerSelection === 'rock' 
-    && userSelection === 'scissors') ||
-    (computerSelection === 'scissors' 
-    && userSelection === 'paper') ||
-    (computerSelection === 'paper' 
-    && userSelection === 'rock')){
-    return ('You lose!' /*${userSelection} beats ${computerSelection}'*/);
-}
-    else {return 'tie!';}
-    } console.log(readySetGo());
+  return['you won ' + userScore, 'lost '+ cpuScore, 'and tied ' + tieScore]}
+    
+  
